@@ -107,17 +107,21 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 
 **Related configuration:** Temporarily enabled `logging.level.org.flywaydb=DEBUG` to diagnose startup, confirmed Flyway's behavior, and then removed the setting. It is not part of the normal application configuration.
 
+### 16. Committed the first persistence feature
+
+**What happened:** Removed temporary Flyway DEBUG logging, reviewed the six changed files, confirmed `git diff --cached --check` was clean, and committed the `User` entity, V1 migration, Flyway setup, related configuration, status route cleanup, and journal as `Add user persistence and initial migration` (`4b66019`). Confirmed the working tree was clean on `master`.
+
+**Why:** This establishes a recoverable milestone with the Java entity and database schema versioned together.
+
 ## Current step
 
-### 16. Clean up diagnostics and checkpoint the persistence foundation
+### 17. Add the identity repository
 
-**Status:** Review passed; ready to commit.
+**Status:** Next.
 
-**Review:** The app started successfully with migration version 1 applied; PostgreSQL confirmed both tables. The six intended files were staged, and `git diff --cached --check` is clean.
+**Next:** Create a Spring Data JPA repository for `User`, then review the generated CRUD methods and decide which operations the application should expose through its service layer.
 
-**Next:** Commit the `User` entity and V1 migration as a focused milestone.
-
-**Why:** Debug logging was useful for verifying Flyway but is noisy for normal development. A commit after review gives the first database-backed feature a clear recovery point.
+**Why:** The repository gives the application a persistence API without placing SQL or database access logic in the entity or web controller.
 
 ## Current project state
 
@@ -125,4 +129,4 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 - The app starts locally on port 8081 and connects to database `bloodflow`.
 - Flyway version 1 is applied; `users` and `flyway_schema_history` were verified in PostgreSQL.
 - The actual database password is held in the local STS launch configuration and must not be committed.
-- Commit `a2946cc` is the last commit; the user entity, migration, Flyway dependencies, configuration, and journal updates are currently uncommitted.
+- Latest feature checkpoint: commit `4b66019` (`Add user persistence and initial migration`).
