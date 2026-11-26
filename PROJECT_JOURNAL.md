@@ -131,15 +131,21 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 
 **Why:** This confirms the application recognizes the repository and can initialize it alongside the existing database setup.
 
+### 20. Committed the identity repository
+
+**What happened:** Formatted the repository, ran the Maven compile goal successfully, reviewed the staged repository and journal, and committed them as `Add user repository` (`e75409f`). Confirmed the working tree was clean on `master`.
+
+**Why:** The account persistence interface is now a reviewable checkpoint, ready to be used from an application service.
+
 ## Current step
 
-### 20. Review and checkpoint the identity repository
+### 21. Design the first identity service operation
 
 **Status:** Next.
 
-**Next:** Format `UserRepository.java`, run `mvnw.cmd compile` again so Maven recompiles the updated repository, then review and commit the repository plus journal. After that, introduce an identity service that uses the repository.
+**Next:** Add a small `UserService` that uses `UserRepository` to look up an account by email. First clarify where this belongs in the modular structure and what the service should return when the email is not found; then implement the method.
 
-**Why:** Keeping repository access behind a service gives the application a place for identity use cases and rules, rather than letting web controllers talk directly to persistence.
+**Why:** A service represents an application use case and keeps controllers from calling persistence directly. Agreeing on the not-found behavior before coding avoids baking in an unclear API contract.
 
 ## Current project state
 
@@ -147,5 +153,4 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 - The app starts locally on port 8081 and connects to database `bloodflow`.
 - Flyway version 1 is applied; `users` and `flyway_schema_history` were verified in PostgreSQL.
 - The actual database password is held in the local STS launch configuration and must not be committed.
-- Latest feature checkpoint: commit `7ec78e8` (`Record persistence milestone`).
-- `UserRepository.java` is in progress and currently uncommitted.
+- Latest feature checkpoint: commit `e75409f` (`Add user repository`); the working tree was clean after commit.
