@@ -113,15 +113,33 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 
 **Why:** This establishes a recoverable milestone with the Java entity and database schema versioned together.
 
+### 17. Created the identity repository
+
+**What happened:** Added `UserRepository` in `com.bloodflow.identity`, extending `JpaRepository<User, Long>`. Ran `mvnw.cmd compile`; Maven compiled all four main Java source files and reported `BUILD SUCCESS`.
+
+**Why:** Spring Data JPA supplies common persistence operations from the repository interface, keeping database access out of the entity and web controller.
+
+### 18. Added an email lookup method
+
+**What happened:** Added `Optional<User> findByEmail(String email)` to `UserRepository`. The Maven `compile` goal completed successfully and reported that source files were up to date.
+
+**Why:** Spring Data derives a query from `findByEmail` and the `email` property on `User`. `Optional` represents that the query may find no matching account.
+
+### 19. Verified repository startup
+
+**What happened:** Restarted BloodFlow in STS. Spring Data reported `Found 1 JPA repository interface`; Flyway validated the existing migration and reported the schema was up to date; the application started successfully on port 8081.
+
+**Why:** This confirms the application recognizes the repository and can initialize it alongside the existing database setup.
+
 ## Current step
 
-### 17. Add the identity repository
+### 20. Review and checkpoint the identity repository
 
 **Status:** Next.
 
-**Next:** Create a Spring Data JPA repository for `User`, then review the generated CRUD methods and decide which operations the application should expose through its service layer.
+**Next:** Format `UserRepository.java`, run `mvnw.cmd compile` again so Maven recompiles the updated repository, then review and commit the repository plus journal. After that, introduce an identity service that uses the repository.
 
-**Why:** The repository gives the application a persistence API without placing SQL or database access logic in the entity or web controller.
+**Why:** Keeping repository access behind a service gives the application a place for identity use cases and rules, rather than letting web controllers talk directly to persistence.
 
 ## Current project state
 
@@ -129,4 +147,5 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 - The app starts locally on port 8081 and connects to database `bloodflow`.
 - Flyway version 1 is applied; `users` and `flyway_schema_history` were verified in PostgreSQL.
 - The actual database password is held in the local STS launch configuration and must not be committed.
-- Latest feature checkpoint: commit `4b66019` (`Add user persistence and initial migration`).
+- Latest feature checkpoint: commit `7ec78e8` (`Record persistence milestone`).
+- `UserRepository.java` is in progress and currently uncommitted.
