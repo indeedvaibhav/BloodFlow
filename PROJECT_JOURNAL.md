@@ -155,15 +155,21 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 
 **Why:** This verifies the service is component-scanned and Spring can provide its repository dependency during application startup.
 
+### 24. Committed and published the identity service
+
+**What happened:** Reviewed the service and repository, confirmed the staged whitespace check was clean, and committed the service, repository formatting, and journal as `Add identity service` (`c19e1cf`). Pushed it to `origin/main` and confirmed the working tree was clean.
+
+**Why:** The email lookup use case now has a service boundary and a published checkpoint.
+
 ## Current step
 
-### 24. Review and checkpoint the identity service
+### 25. Design safe account creation
 
 **Status:** Next.
 
-**Next:** Review the pending `UserService` and `UserRepository` formatting change, run the compile check, then commit and push this service milestone. After that, design a safe account-creation flow, including password hashing, before exposing registration through the API.
+**Next:** Decide how registration should validate email/name/phone and hash passwords before adding an API endpoint. Passwords must never be stored or returned as plain text; the account service should encode the password before persisting it.
 
-**Why:** Account creation must store a password hash rather than a raw password; settle that security requirement before building an endpoint that accepts credentials.
+**Why:** Registration accepts credentials and creates identity data, so validation and password storage behavior must be settled before exposing the operation over HTTP.
 
 ## Current project state
 
@@ -171,5 +177,5 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 - The app starts locally on port 8081 and connects to database `bloodflow`.
 - Flyway version 1 is applied; `users` and `flyway_schema_history` were verified in PostgreSQL.
 - The actual database password is held in the local STS launch configuration and must not be committed.
-- Latest Git checkpoint: merge commit `c4812ef` is pushed to `origin/main`.
+- Latest Git checkpoint: commit `c19e1cf` (`Add identity service`) is pushed to `origin/main`.
 - Local `main` tracks `origin/main`.
