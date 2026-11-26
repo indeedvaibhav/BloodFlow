@@ -143,15 +143,27 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 
 **Why:** The GitHub repository had its own initial commits, so the histories needed an explicit merge before a normal push could publish the locally built application.
 
+### 22. Added the first identity service operation
+
+**What happened:** Created `UserService` in `com.bloodflow.identity`, injected `UserRepository` through its constructor, and added `findByEmail(String email)` returning `Optional<User>`. Maven completed the compile goal successfully.
+
+**Why:** The service represents an identity use case and keeps callers from accessing persistence directly. Returning `Optional` keeps the not-found case explicit for a future API layer.
+
+### 23. Verified identity service startup
+
+**What happened:** Restarted BloodFlow after adding `UserService`. Spring Data found one JPA repository, Flyway reported the schema was up to date, and the application started successfully on port 8081.
+
+**Why:** This verifies the service is component-scanned and Spring can provide its repository dependency during application startup.
+
 ## Current step
 
-### 22. Design the first identity service operation
+### 24. Review and checkpoint the identity service
 
 **Status:** Next.
 
-**Next:** Add a small `UserService` that uses `UserRepository` to look up an account by email. First clarify where this belongs in the modular structure and what the service should return when the email is not found; then implement the method.
+**Next:** Review the pending `UserService` and `UserRepository` formatting change, run the compile check, then commit and push this service milestone. After that, design a safe account-creation flow, including password hashing, before exposing registration through the API.
 
-**Why:** A service represents an application use case and keeps controllers from calling persistence directly. Agreeing on the not-found behavior before coding avoids baking in an unclear API contract.
+**Why:** Account creation must store a password hash rather than a raw password; settle that security requirement before building an endpoint that accepts credentials.
 
 ## Current project state
 
