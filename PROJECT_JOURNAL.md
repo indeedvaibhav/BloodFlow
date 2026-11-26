@@ -137,9 +137,15 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 
 **Why:** The account persistence interface is now a reviewable checkpoint, ready to be used from an application service.
 
+### 21. Published the project to GitHub
+
+**What happened:** Renamed the local branch from `master` to `main`, added `https://github.com/indeedvaibhav/BloodFlow` as `origin`, fetched its existing README/scaffold history, and merged the two independent histories. Kept the local BloodFlow `pom.xml` and concise README, resolved `application.properties` with the local database settings, and verified the app still compiled. Pushed the merge commit `c4812ef` to GitHub; `main` now tracks `origin/main` and the working tree is clean.
+
+**Why:** The GitHub repository had its own initial commits, so the histories needed an explicit merge before a normal push could publish the locally built application.
+
 ## Current step
 
-### 21. Design the first identity service operation
+### 22. Design the first identity service operation
 
 **Status:** Next.
 
@@ -153,4 +159,5 @@ A step-by-step record of how BloodFlow is being built, the decisions made, and w
 - The app starts locally on port 8081 and connects to database `bloodflow`.
 - Flyway version 1 is applied; `users` and `flyway_schema_history` were verified in PostgreSQL.
 - The actual database password is held in the local STS launch configuration and must not be committed.
-- Latest feature checkpoint: commit `e75409f` (`Add user repository`); the working tree was clean after commit.
+- Latest Git checkpoint: merge commit `c4812ef` is pushed to `origin/main`.
+- Local `main` tracks `origin/main`.
